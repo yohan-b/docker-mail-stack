@@ -1,0 +1,44 @@
+version: "2.1"
+ 
+services:
+
+  dovecot:
+    image: dovecot
+    restart: always
+    ports:
+      - 993:993/tcp
+      - 4190:4190/tcp
+    networks:
+      - mailnet
+    volumes:
+      - mail_data:/home/yohan
+      - ./dovecot_expire.sh:/root/dovecot_expire.sh
+ 
+  fetchmail:
+    image: fetchmail
+    restart: always
+    networks:
+      - mailnet
+ 
+  feed2imap:
+    image: feed2imap
+    restart: always
+    networks:
+      - mailnet
+
+  cron-purge-dovecot:
+    image: cron
+    restart: always
+    network_mode: "host"
+    volumes:
+      - ./crontab:/etc/crontab
+
+networks:
+
+  mailnet:
+    external: true
+
+volumes:
+
+  mail_data:
+    external: true

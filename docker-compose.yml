@@ -3,7 +3,9 @@ version: "2.1"
 services:
 
   dovecot:
-    image: dovecot
+    image: dovecot:$VERSION_DOVECOT
+    build: "https://git.scimetis.net/yohan/docker-dovecot.git"
+    container_name: dovecot
     restart: always
     ports:
       - 993:993/tcp
@@ -13,21 +15,32 @@ services:
     volumes:
       - mail_data:/home/yohan
       - ./dovecot_expire.sh:/root/dovecot_expire.sh
+      - ./users:/etc/dovecot/users
+      - ./15-lda.conf:/etc/dovecot/conf.d/15-lda.conf
  
   fetchmail:
-    image: fetchmail
+    image: fetchmail:$VERSION_FETCHMAIL
+    build: "https://git.scimetis.net/yohan/docker-fetchmail.git"
+    container_name: fetchmail
     restart: always
     networks:
       - mailnet
+    volumes:
+      - ./fetchmailrc:/etc/fetchmailrc
  
   feed2imap:
-    image: feed2imap
+    image: feed2imap:$VERSION_FEED2IMAP
+    build: "https://git.scimetis.net/yohan/docker-feed2imap.git"
+    container_name: feed2imap
     restart: always
     networks:
       - mailnet
+    volumes:
+      - ./feed2imaprc:/root/feed2imaprc
 
   cron-purge-dovecot:
-    image: cron
+    image: cron:$VERSION_CRON
+    build: "https://git.scimetis.net/yohan/docker-cron.git"
     restart: always
     network_mode: "host"
     volumes:

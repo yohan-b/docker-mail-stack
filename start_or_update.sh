@@ -4,6 +4,10 @@ openssl enc -aes-256-cbc -d -in ~/secrets.tar.gz.enc | tar -zxv --strip 2 secret
 secrets/docker-mail-stack/users secrets/docker-mail-stack/15-lda.conf secrets/docker-mail-stack/feed2imaprc
 sudo chown root. fetchmailrc users 15-lda.conf feed2imaprc
 sudo chmod a-r feed2imaprc
+
+sudo chown root:root crontab
+sudo chmod 644 crontab
+
 # --force-recreate is used to recreate container when crontab file has changed
 unset VERSION_DOVECOT VERSION_FETCHMAIL VERSION_FEED2IMAP VERSION_CRON
 VERSION_DOVECOT=$(git ls-remote ssh://git@git.scimetis.net:2222/yohan/docker-dovecot.git| head -1 | cut -f 1|cut -c -10) \

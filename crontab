@@ -8,4 +8,4 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # m | h | day of month | month | day of week | user | command
-30    0              *       *             *   root   docker -H tcp://127.0.0.1:2375 exec dockermailstack_dovecot_1 /root/dovecot_expire.sh > /proc/1/fd/2 2>&1
+30    0              *       *             *   root   docker -H tcp://127.0.0.1:2375 exec dovecot /root/dovecot_expire.sh > /proc/1/fd/2 2>&1

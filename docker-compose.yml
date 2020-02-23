@@ -4,7 +4,7 @@ services:
 
   dovecot:
     image: dovecot:$VERSION_DOVECOT
-    build: "https://git.scimetis.net/yohan/docker-dovecot.git"
+    #build: "https://git.scimetis.net/yohan/docker-dovecot.git"
     container_name: dovecot
     restart: always
     ports:
@@ -13,24 +13,34 @@ services:
     networks:
       - mailnet
     volumes:
-      - mail_data:/home/yohan
+      - /mnt/volumes/mail_data/data:/home/yohan
       - ./dovecot_expire.sh:/root/dovecot_expire.sh
       - ./users:/etc/dovecot/users
       - ./15-lda.conf:/etc/dovecot/conf.d/15-lda.conf
  
-  fetchmail:
+  fetchmail-orange:
     image: fetchmail:$VERSION_FETCHMAIL
-    build: "https://git.scimetis.net/yohan/docker-fetchmail.git"
-    container_name: fetchmail
+    #build: "https://git.scimetis.net/yohan/docker-fetchmail.git"
+    container_name: fetchmail-orange
     restart: always
     networks:
       - mailnet
     volumes:
-      - ./fetchmailrc:/etc/fetchmailrc
+      - ./fetchmailrc-orange:/etc/fetchmailrc
+
+  fetchmail-scimetis:
+    image: fetchmail:$VERSION_FETCHMAIL
+    #build: "https://git.scimetis.net/yohan/docker-fetchmail.git"
+    container_name: fetchmail-scimetis
+    restart: always
+    networks:
+      - mailnet
+    volumes:
+      - ./fetchmailrc-scimetis:/etc/fetchmailrc
  
   feed2imap:
     image: feed2imap:$VERSION_FEED2IMAP
-    build: "https://git.scimetis.net/yohan/docker-feed2imap.git"
+    #build: "https://git.scimetis.net/yohan/docker-feed2imap.git"
     container_name: feed2imap
     restart: always
     networks:
@@ -38,20 +48,7 @@ services:
     volumes:
       - ./feed2imaprc:/root/feed2imaprc
 
-  cron-purge-dovecot:
-    image: cron:$VERSION_CRON
-    build: "https://git.scimetis.net/yohan/docker-cron.git"
-    restart: always
-    network_mode: "host"
-    volumes:
-      - ./crontab:/etc/crontab
-
 networks:
 
   mailnet:
-    external: true
-
-volumes:
-
-  mail_data:
     external: true

@@ -6,6 +6,17 @@ secrets/docker-mail-stack/fetchmailrc-scimetis
 sudo chown root. fetchmailrc-orange fetchmailrc-scimetis users 15-lda.conf feed2imaprc
 sudo chmod a-r feed2imaprc
 
+VOLUME=mail_data
+sudo mkdir -p /mnt/volumes/${VOLUME}
+if ! mountpoint -q /mnt/volumes/${VOLUME}
+then
+     VOLUME_ID=$(~/env_py3/bin/openstack volume show ${VOLUME} -c id --format value)
+     test -e /dev/disk/by-id/*${VOLUME_ID:0:20} || nova volume-attach $INSTANCE $VOLUME_ID auto
+     sleep 3
+     sudo mount /dev/disk/by-id/*${VOLUME_ID:0:20} /mnt/volumes/${VOLUME} || exit 1
+     mountpoint -q /mnt/volumes/${VOLUME} || { echo "ERROR: could not mount /mnt/volumes/${VOLUME}, exiting."; exit 1; }
+fi
+
 unset VERSION_DOVECOT VERSION_FETCHMAIL VERSION_FEED2IMAP
 VERSION_DOVECOT=$(git ls-remote https://git.scimetis.net/yohan/docker-dovecot.git| head -1 | cut -f 1|cut -c -10)
 VERSION_FETCHMAIL=$(git ls-remote https://git.scimetis.net/yohan/docker-fetchmail.git| head -1 | cut -f 1|cut -c -10)

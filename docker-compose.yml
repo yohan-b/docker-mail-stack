@@ -6,7 +6,6 @@ services:
     image: dovecot:$VERSION_DOVECOT
     #build: "https://git.scimetis.net/yohan/docker-dovecot.git"
     container_name: dovecot
-    restart: always
     ports:
       - 993:993/tcp
       - 4190:4190/tcp
@@ -22,7 +21,6 @@ services:
     image: fetchmail:$VERSION_FETCHMAIL
     #build: "https://git.scimetis.net/yohan/docker-fetchmail.git"
     container_name: fetchmail-orange
-    restart: always
     networks:
       - mailnet
     volumes:
@@ -32,7 +30,6 @@ services:
     image: fetchmail:$VERSION_FETCHMAIL
     #build: "https://git.scimetis.net/yohan/docker-fetchmail.git"
     container_name: fetchmail-scimetis
-    restart: always
     networks:
       - mailnet
     volumes:
@@ -42,7 +39,6 @@ services:
     image: feed2imap:$VERSION_FEED2IMAP
     #build: "https://git.scimetis.net/yohan/docker-feed2imap.git"
     container_name: feed2imap
-    restart: always
     networks:
       - mailnet
     volumes:

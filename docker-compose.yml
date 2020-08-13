@@ -13,6 +13,7 @@ services:
       - mailnet
     volumes:
       - /mnt/volumes/mail_data/data:/home/yohan
+      - /mnt/volumes/mail_data_Sylvie/data:/home/sylvie
       - ./dovecot_expire.sh:/root/dovecot_expire.sh
       - ./users:/etc/dovecot/users
       - ./15-lda.conf:/etc/dovecot/conf.d/15-lda.conf
@@ -34,6 +35,15 @@ services:
       - mailnet
     volumes:
       - ./fetchmailrc-scimetis:/etc/fetchmailrc
+
+  fetchmail-laposte-sylvie:
+    image: fetchmail:$VERSION_FETCHMAIL
+    #build: "https://git.scimetis.net/yohan/docker-fetchmail.git"
+    container_name: fetchmail-laposte-sylvie
+    networks:
+      - mailnet
+    volumes:
+      - ./fetchmailrc-laposte-sylvie:/etc/fetchmailrc
  
   feed2imap:
     image: feed2imap:$VERSION_FEED2IMAP

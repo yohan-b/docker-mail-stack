@@ -20,9 +20,9 @@ fi
 
 openssl enc -aes-256-cbc -d -in ~/secrets.tar.gz.enc | tar -zxv --strip 2 secrets/docker-mail-stack/fetchmailrc-orange \
 secrets/docker-mail-stack/users secrets/docker-mail-stack/15-lda.conf secrets/docker-mail-stack/feed2imaprc \
-secrets/docker-mail-stack/fetchmailrc-scimetis \
+secrets/docker-mail-stack/fetchmailrc-scimetis secrets/docker-mail-stack/fetchmailrc-laposte-sylvie \
 || { echo "Could not extract from secrets archive, exiting."; rm -f ~/secrets.tar.gz.enc; exit 1; }
-sudo chown root. fetchmailrc-orange fetchmailrc-scimetis users 15-lda.conf feed2imaprc
+sudo chown root. fetchmailrc-orange fetchmailrc-scimetis fetchmailrc-laposte-sylvie users 15-lda.conf feed2imaprc
 sudo chmod a-r feed2imaprc
 
 unset VERSION_DOVECOT VERSION_FETCHMAIL VERSION_FEED2IMAP

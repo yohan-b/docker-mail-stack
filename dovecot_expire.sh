@@ -1,4 +1,8 @@
 #!/bin/bash
+
+doveadm expunge -u admin mailbox Trash savedbefore 30d
+echo `date +"%F %T"` "Trash purged"
+
 doveadm expunge -u admin mailbox Feeds.phoronix savedbefore 60d
 doveadm expunge -u admin mailbox Feeds.hardwarefr savedbefore 60d
 doveadm expunge -u admin mailbox Feeds.pcinpact_articles savedbefore 60d
